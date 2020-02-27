@@ -123,15 +123,22 @@ const ConfirmDialog = (props: ConfirmDialogProps) => {
 };
 
 export default function confirm(config: ModalFuncProps) {
-  const div = document.createElement('div');
-  document.body.appendChild(div);
+  const el = document.getElementById('br-v2');
+  if (!el) {
+    console.error("expected to find an element in the DOM with id 'br-v2' -- could not find it")
+    return;
+  }
+  el.appendChild(el);
   // eslint-disable-next-line no-use-before-define
   let currentConfig = { ...config, close, visible: true } as any;
 
   function destroy(...args: any[]) {
-    const unmountResult = ReactDOM.unmountComponentAtNode(div);
-    if (unmountResult && div.parentNode) {
-      div.parentNode.removeChild(div);
+    if (!el) {
+      return;
+    }
+    const unmountResult = ReactDOM.unmountComponentAtNode(el);
+    if (unmountResult && el.parentNode) {
+      el.parentNode.removeChild(el);
     }
     const triggerCancel = args.some(param => param && param.triggerCancel);
     if (config.onCancel && triggerCancel) {
@@ -148,7 +155,7 @@ export default function confirm(config: ModalFuncProps) {
   }
 
   function render(props: any) {
-    ReactDOM.render(<ConfirmDialog {...props} />, div);
+    ReactDOM.render(<ConfirmDialog {...props} />, el);
   }
 
   function close(...args: any[]) {
