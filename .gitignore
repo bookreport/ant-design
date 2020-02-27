@@ -24,7 +24,8 @@ npm-debug.log
 nohup.out
 _site
 _data
-dist
+# Don't ignore this, since we need it to actually run with bookreport
+# dist
 /lib
 /es
 elasticsearch-*
